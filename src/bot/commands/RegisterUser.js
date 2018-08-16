@@ -21,7 +21,6 @@ class RegisterUser extends Command {
 			return au.discordUserId === msg.author.id;
 		});
 		if (activeUsers.length > 0) {
-			console.log(activeUsers);
 			return msg.channel.createMessage('You already own a weeb.sh user');
 		}
 		return this._startRegistrationProcess(msg, msg.author);
@@ -47,7 +46,11 @@ class RegisterUser extends Command {
 		return new Promise((resolve, reject) => {
 			msg.channel.createMessage(`Please agree with our privacy policy (<${this._customConfig.privacyPolicyUrl}>) by typing \`yes\``)
 				.then(() => {
-					const listener = msg.messageListenConnector.addListener(msg.channel.id, { max: 1, timeout: 10000 });
+					const listener = msg.messageListenConnector.addListener(msg.channel.id, {
+						max: 1,
+						timeout: 10000,
+						filter: listMsg => listMsg.author.id === msg.author.id,
+					});
 					listener.once('message', msg => {
 						if (msg.content !== 'yes') {
 							return reject(new Error('privacy'));
@@ -69,7 +72,11 @@ class RegisterUser extends Command {
 			}
 			msg.channel.createMessage(this._generateInvalidUsernameMessage(username))
 				.then(() => {
-					const listener = msg.messageListenConnector.addListener(msg.channel.id, { max: 1, timeout: 10000 });
+					const listener = msg.messageListenConnector.addListener(msg.channel.id, {
+						max: 1,
+						timeout: 10000,
+						filter: listMsg => listMsg.author.id === msg.author.id,
+					});
 					listener.once('message', msg => {
 						if (this._isValidName(msg.content)) {
 							return resolve(msg.content.toLocaleLowerCase()

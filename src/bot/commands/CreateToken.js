@@ -25,7 +25,7 @@ class CreateToken extends Command {
 		const user = activeUsers[0];
 		if (user.tokens.length > 0) {
 			try {
-				this._recreateToken(msg, user);
+				await this._recreateToken(msg, user);
 			} catch (e) {
 				return common.handleError(msg, e);
 			}
@@ -38,7 +38,11 @@ class CreateToken extends Command {
 			const infoMsg = 'You already have an active token, do you want to recreate it [`yes`/`no`] ? **This will turn the old token invalid!**';
 			msg.channel.createMessage(infoMsg)
 				.then(() => {
-					const listener = msg.messageListenConnector.addListener(msg.channel.id, { max: 1, timeout: 10000 });
+					const listener = msg.messageListenConnector.addListener(msg.channel.id, {
+						max: 1,
+						timeout: 10000,
+						filter: listMsg => listMsg.author.id === msg.author.id,
+					});
 					listener.once('message', msg => {
 						if (msg.content === 'yes') {
 							return resolve(this._createToken(msg, user));
@@ -46,7 +50,7 @@ class CreateToken extends Command {
 						return resolve(msg.channel.createMessage('Ok, I won\'t recreate your token.'));
 					});
 					listener.once('timeout', () => {
-						reject(new Error('timeout'));
+						return reject(new Error('timeout'));
 					});
 				})
 				.catch(e => reject(e));
