@@ -1,0 +1,11 @@
+{
+  "guildId": "central guild id",
+  "token": "discord token",
+  "erisOptions": {
+    "getAllUsers": true,
+    "defaultImageFormat": "png"
+  },
+  "prefix":"weeb",
+  "weebShToken":"",
+  "privacyPolicyUrl":"https://weeb.sh/privacy.html"
+}

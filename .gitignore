@@ -1,0 +1,7 @@
+.idea/
+.vscode/
+node_modules/
+config/main.json
+config/custom.json
+package-lock.json
+*.iml

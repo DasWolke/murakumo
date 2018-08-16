@@ -1,0 +1,20 @@
+{
+  "host": "127.0.0.1",
+  "port": 9012,
+  "env":"development",
+  "uagent":"Murakumo",
+  "irohHost":"http://localhost:9010",
+  "sentry": "",
+  "track": "",
+  "registration": {
+    "enabled": false,
+    "host": "",
+    "token": "",
+    "checks": null
+  },
+  "whitelist": [
+    {
+      "path": "/"
+    }
+  ]
+}
