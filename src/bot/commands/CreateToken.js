@@ -29,6 +29,8 @@ class CreateToken extends Command {
 			} catch (e) {
 				return common.handleError(msg, e);
 			}
+		} else {
+			return this._createToken(msg, user);
 		}
 	}
 
